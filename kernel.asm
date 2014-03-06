@@ -1,6 +1,21 @@
-[extern kernel_main]
-; Jumps straight to kernel.c
-jmp kernel_main
+[org 0x8000]
+
+mov si, welcome_msg
+call printf
+
+; Prompts for username
+mov si, login_prmt
+call printf
+
+; Gets the username
+
+; Prompts for password
+mov si, pass_prmt
+call printf
+
+; Gets the password
+
+jmp $
 
 printf:
 	lodsb
