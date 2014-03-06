@@ -25,7 +25,7 @@ $(FLPDSK): $(OBJECTS) $(BOOTOBJ)
 	dd $(DDSTAT) if=$(HDRIVE) of=$(FLPDSK)
 
 $(OBJECTS): $(SOURCES)
-	$(ASM) -f elf $(@:.bin=.asm) -o $@
+	$(ASM) $(NFLAGS) $(@:.bin=.asm) -o $@
 
 $(BOOTOBJ): $(BOOTSRC)
 	$(ASM) $(NFLAGS) $(@:.bin=.asm) -o $@
