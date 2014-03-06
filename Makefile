@@ -2,36 +2,34 @@
 #
 # Options and stoof
 ASM = nasm
-CC = gcc
-CFLAGS = -c -std=gnu99 -ffreestanding -O2 -Wall -Wextra
 NFLAGS = -f bin
 MOUNTSTAT = -t vfat
 DDSTAT = status=noxfer conv=notrunc
 
-BOOTSRC = boot.asm
-BOOTOBJ = boot.bin
-SOURCES = kernel.asm
-OBJECTS = $(SOURCES:.asm=.bin)
+BOOTSRC = src/boot.asm
+BOOTOBJ = obj/boot.bin
+K_SRC = src/kernel.asm							# Kernel source
+K_OBJ = obj/kernel.bin							# Kernel binary
 FLPDSK = CYOS.flp
 HDRIVE = hard_drive
 QEMUOPT = -boot order=a -fda $(FLPDSK)
 
 all: $(FLPDSK)
 
-$(FLPDSK): $(OBJECTS) $(BOOTOBJ)
+$(FLPDSK): $(K_OBJ) $(BOOTOBJ)
 	rm -f $(HDRIVE)
 	mkdosfs -C $(FLPDSK) 1440
-	cat $(BOOTOBJ) $(OBJECTS) >> $(HDRIVE)
+	cat $(BOOTOBJ) $(K_OBJ) >> $(HDRIVE)
 	dd $(DDSTAT) if=$(HDRIVE) of=$(FLPDSK)
 
-$(OBJECTS): $(SOURCES)
-	$(ASM) $(NFLAGS) $(@:.bin=.asm) -o $@
+$(K_OBJ): $(K_SRC)
+	$(ASM) $(NFLAGS) $(K_SRC) -o $(K_OBJ)
 
 $(BOOTOBJ): $(BOOTSRC)
-	$(ASM) $(NFLAGS) $(@:.bin=.asm) -o $@
+	$(ASM) $(NFLAGS) $(BOOTSRC) -o $@
 
 clean:
-	rm -f *.bin *.o
+	rm -f $(BOOTOBJ) $(OBJECTS)
 	rm -f $(HDRIVE)
 	rm -f $(FLPDSK)
 

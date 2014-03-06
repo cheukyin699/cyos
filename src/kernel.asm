@@ -96,4 +96,4 @@ pass_buff times 50 db 0
 ; |Features to pull into the kernel |
 ; +---------------------------------+
 
-	%INCLUDE 'include/keyboard.asm'
+	%INCLUDE 'src/include/keyboard.asm'
