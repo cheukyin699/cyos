@@ -24,7 +24,6 @@ ReadDisk:
 
 PM:
 	cli					; Clear/disable interupts
-;	call setGDT
 	mov eax, cr0
 	or al, 1			; set PE (Protection Enabled)bit in CR0 (Control Register 0)
 	mov cr0, eax
@@ -41,18 +40,6 @@ Successful:
 	mov esp, 8000h
 
 	jmp 8000h
-
-;setGDT:
-;	xor eax, eax
-;	mov ax, ds
-;	shl eax, 4
-;	add eax, 'GDT'
-;	mov [gdtr + 2], eax
-;	mov eax, 'GDT_end'
-;	sub eax, 'GDT'
-;	mov [gdtr], ax
-;	lgdt [gdtr]
-;	ret
 
 printf:
 	lodsb
