@@ -1,0 +1,20 @@
+=======================================================
+=
+=	functions_table.txt
+=
+=	The Table for functions (cross-indexed + alphabetized)
+=
+=	Author: Ng Cheuk Yin
+=	Description: If you forgot where some functions are
+=				located, you can have a look into this
+=				file to check. FOR INCLUDE FILE F(x).
+=
+=======================================================
+
+=======================================================
+= Functions: Filename
+=
+= os_getkey						: include/keyboard.asm
+= os_wait_for_key				: include/keyboard.asm
+=
+=======================================================
