@@ -7,7 +7,7 @@
 =	Author: Ng Cheuk Yin
 =	Description: If you forgot where some functions are
 =				located, you can have a look into this
-=				file to check. FOR INCLUDE FILE F(x).
+=				file to check. FOR INCLUDE FILE FUNCTIONS.
 =
 =======================================================
 
