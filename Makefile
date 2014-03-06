@@ -29,7 +29,7 @@ $(BOOTOBJ): $(BOOTSRC)
 	$(ASM) $(NFLAGS) $(BOOTSRC) -o $@
 
 clean:
-	rm -f $(BOOTOBJ) $(OBJECTS)
+	rm -f $(BOOTOBJ) $(K_OBJ)
 	rm -f $(HDRIVE)
 	rm -f $(FLPDSK)
 

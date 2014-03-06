@@ -1,9 +1,17 @@
 [org 0x8000]
 
+; Set Graphical mode
+xor ah, ah
+mov al, 13h
+int 10h
+
+mov bh, 0
+mov bl, 0h
 mov si, welcome_msg
 call printf
 
 ; Prompts for username
+mov bl, 10h
 mov si, login_prmt
 call printf
 
@@ -23,6 +31,7 @@ printf:
 	jz .done
 	mov ah, 0Eh
 	int 10h
+	inc bl
 	jmp printf
 	.done:
 	ret

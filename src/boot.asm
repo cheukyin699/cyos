@@ -21,19 +21,9 @@ ReadDisk:
 	
 	mov si, error
 	call printf
-
-PM:
-	cli					; Clear/disable interupts
-	mov eax, cr0
-	or al, 1			; set PE (Protection Enabled)bit in CR0 (Control Register 0)
-	mov cr0, eax
-
 	jmp ReadDisk
 
 Successful:
-	mov si, s_str
-	call printf
-
 	cli
 	xor ax, ax
 	mov ss, ax
@@ -50,10 +40,7 @@ printf:
 	jmp printf
 	.done:
 		ret
-gdtr:
-	dw 0			; For limit storage
-	dd 0			; For base storage
-s_str db 'Successfully loaded Kernel to memory', 13, 10, 0
-error db 'Error: Cannot read drive - Trying again', 13, 10, 0
+suc db 'Kernel loaded successfully', 13, 10, 0
+error db 'Error: Cannot read drive', 13, 10, 0
 times 510-($-$$) db 0
 dw 0xAA55
