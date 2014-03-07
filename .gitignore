@@ -2,3 +2,8 @@
 *.o
 *.swp
 hard_drive
+images/
+javascripts/
+stylesheets/
+index.html
+params.json
