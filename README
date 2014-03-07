@@ -1,0 +1,9 @@
+#CYOS
+
+Must install _NASM_ to compile
+Default compiler in MAKE: qemu-system-i386
+
+###To compile/run:
+```shell
+make clean run
+```
