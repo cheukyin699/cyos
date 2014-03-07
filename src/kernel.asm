@@ -18,14 +18,24 @@ call printf
 ; Gets the username
 mov si, login_buf
 call os_getline
-mov si, login_buf
-call printf
 
 ; Prompts for password
 mov si, pass_prmt
 call printf
 
 ; Gets the password
+stc							; Set carry to stop user from seeing password
+mov si, pass_buf
+call os_getline
+
+; Tells you what your username and password is
+mov si, login_buf
+call printf
+mov al, ':'
+mov ah, 0Eh
+int 10h
+mov si, pass_buf
+call printf
 
 jmp $
 
@@ -43,6 +53,7 @@ printf:
 welcome_msg db 'Welcome to CYOS! Please login', 13, 10, 0
 login_prmt db 'LOGIN: ', 0
 pass_prmt db 'PASSWORD: ', 0
+newline db 13, 10, 0
 login_buf times 50 db 0
 pass_buf times 50 db 0
 

@@ -16,7 +16,11 @@
 ;	Requires: si=buffer
 ;	Returns: si=buffer
 os_getline:
+	jnc .o_gt_regular
+	mov byte [ispwd], 1
+	.o_gt_regular:
 	pusha
+	push si
 	mov ax, 0
 	push ax
 	.o_gt_lp:
@@ -25,8 +29,11 @@ os_getline:
 		jz .o_gt_lp
 		cmp al, 0Dh		; Terminates if ENTER was pressed
 		jz .o_gt_ret
+		cmp byte [ispwd], 1
+		jz .o_gt_skipprt; Carry flag indicates a password
 		mov ah, 0Eh		; Prints out the letter
 		int 10h
+		.o_gt_skipprt:
 		push ax
 		jmp .o_gt_lp
 	.o_gt_ret:
@@ -38,6 +45,29 @@ os_getline:
 		inc si
 		jmp .o_gt_ret
 	.o_gt_end:
+		; Pushes everything in and pops everything again
+		; For reversing the order of the string
+		pop si
+		mov di, si
+		mov ax, 0
+		push ax
+		.o_gt_dpush:
+			cmp word [si], 0
+			jz .o_gt_dpop_pre
+			mov al, [si]
+			push ax
+			inc si
+			jmp .o_gt_dpush
+		.o_gt_dpop_pre:
+			mov si, di
+		.o_gt_dpop:
+			pop ax
+			cmp al, 0	; See if end of input
+			jz .o_gt_ddone
+			mov [di], al
+			inc di
+			jmp .o_gt_dpop
+		.o_gt_ddone:
 		; Gets position
 		mov ah, 03h
 		int 10h
@@ -49,6 +79,7 @@ os_getline:
 		; Return
 		popa
 		ret
+	ispwd db 0
 
 ; os_wait_for_key:
 ;	Requires: NONE
