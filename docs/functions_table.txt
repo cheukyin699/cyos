@@ -12,9 +12,20 @@
 =======================================================
 
 =======================================================
+= Constants: Filename
+= 
+= os_nl							: include/string.asm
+= 
+=======================================================
+
+=======================================================
 = Functions: Filename
 =
+= os_box						: include/system.asm
 = os_getkey						: include/keyboard.asm
+= os_getline					: include/keyboard.asm
+= os_pixel						: include/system.asm
+= os_printf						: include/system.asm
 = os_wait_for_key				: include/keyboard.asm
 =
 =======================================================
