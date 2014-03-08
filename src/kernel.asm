@@ -32,6 +32,10 @@ stc							; Set carry to stop user from seeing password
 mov si, pass_buf
 call os_getline
 
+; Clears screen
+xor bh, bh
+call os_cls
+
 ; Writes a pixel graphics
 mov ah, 0Ch
 mov al, 0Fh					; The color
@@ -42,6 +46,9 @@ mov di, 100					; The height
 call os_box
 
 ; Tells you what your username and password is
+mov si, login_buf
+mov byte[di], 0xFE18
+call os_safehash
 mov si, login_buf
 call os_printf
 mov al, ':'
@@ -61,6 +68,7 @@ pass_buf times 50 db 0
 ; +---------------------------------+
 ; |Features to pull into the kernel |
 ; +---------------------------------+
-
+	
+	%INCLUDE 'src/include/algorithms.asm'
 	%INCLUDE 'src/include/keyboard.asm'
 	%INCLUDE 'src/include/system.asm'

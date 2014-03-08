@@ -11,6 +11,21 @@
 ;	os_printf				- Printf operation
 ;	os_pixel				- Creates a pixel on screen of a color
 ;	os_box					- Creates a box of a color
+;	os_cls					- Clears screen
+
+; os_cls
+; Requires: BH=attribute(COLOR)
+; Returns: Nothing
+os_cls:
+	pusha
+	mov ah, 6
+	mov al, 0					; The whole screen
+	xor cx, cx
+	mov dl, 79
+	mov dh, 24
+	int 10h
+	popa
+	ret
 
 ; os_box
 ; Requires: AL=color, CX=startcol, DX=startrow, SI=width, DI=height

@@ -22,6 +22,7 @@
 = Functions: Filename
 =
 = os_box						: include/system.asm
+= os_cls						: include/system.asm
 = os_getkey						: include/keyboard.asm
 = os_getline					: include/keyboard.asm
 = os_pixel						: include/system.asm
