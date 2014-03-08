@@ -46,6 +46,7 @@ mov di, 100					; The height
 call os_box
 
 ; Tells you what your username and password is
+; but hashed
 mov si, login_buf
 mov byte[di], 0xFE18
 call os_safehash
@@ -54,6 +55,8 @@ call os_printf
 mov al, ':'
 mov ah, 0Eh
 int 10h
+mov si, pass_buf
+call os_safehash
 mov si, pass_buf
 call os_printf
 
@@ -64,6 +67,8 @@ login_prmt db 'LOGIN: ', 0
 pass_prmt db 13, 10, 'PASSWORD: ', 0
 login_buf times 50 db 0
 pass_buf times 50 db 0
+valid_login db 'jwwl', 0
+valid_pass db '[AWK', 0
 
 ; +---------------------------------+
 ; |Features to pull into the kernel |
@@ -71,4 +76,5 @@ pass_buf times 50 db 0
 	
 	%INCLUDE 'src/include/algorithms.asm'
 	%INCLUDE 'src/include/keyboard.asm'
+	%INCLUDE 'src/include/string.asm'
 	%INCLUDE 'src/include/system.asm'
