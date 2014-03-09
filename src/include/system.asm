@@ -12,6 +12,15 @@
 ;	os_pixel				- Creates a pixel on screen of a color
 ;	os_box					- Creates a box of a color
 ;	os_cls					- Clears screen
+;	os_gettime				- Gets the current time
+
+; os_gettime
+; Requires: Nothing
+; Returns: CH=hours, CL=minutes, DH=seconds, DL=hundredths of seconds
+os_gettime:
+	mov ah, 2Ch
+	int 21h
+	ret
 
 ; os_cls
 ; Requires: BH=attribute(COLOR)
