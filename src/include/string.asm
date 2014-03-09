@@ -24,10 +24,23 @@ os_nl db 13, 10, 0
 os_strcmp:
 	pusha
 	.o_scmp:
-		cmp [si], [di]
-		inc si
+		lodsb
+		mov ah, 0Eh
+		int 10h
+		push ax
+		xor al, [di]
+		cmp al, 0
+		jne .o_scmp_n
+		pop ax
 		inc di
-		jz .o_scmp
-		; pass
+		cmp al, 0
+		je .o_scmp_done
+		jmp .o_scmp
+	.o_scmp_n:
+		clc
+		jmp .o_scmp_r
+	.o_scmp_done:
+		stc
+	.o_scmp_r:
 	popa
 	ret

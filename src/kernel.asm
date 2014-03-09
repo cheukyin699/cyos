@@ -1,10 +1,5 @@
 [org 0x8000]
 
-; Set Cursor shape
-mov ah, 1
-mov cx, 60h
-int 10h
-
 ; Set Graphical mode
 xor ah, ah
 mov al, 13h
@@ -48,27 +43,34 @@ call os_box
 ; Tells you what your username and password is
 ; but hashed
 mov si, login_buf
-mov byte[di], 0xFE18
+mov byte[di], 0x18
+call os_safehash
+mov si, pass_buf
 call os_safehash
 mov si, login_buf
-call os_printf
-mov al, ':'
-mov ah, 0Eh
-int 10h
+mov di, valid_login
+call os_strcmp
+jnc novalid
 mov si, pass_buf
-call os_safehash
-mov si, pass_buf
+mov di, valid_pass
+call os_strcmp
+jnc novalid
+
+mov si, valid
 call os_printf
+
+novalid:
 
 jmp $
 
 welcome_msg db 'Welcome to CYOS! Please login', 13, 10, 0
 login_prmt db 'LOGIN: ', 0
 pass_prmt db 13, 10, 'PASSWORD: ', 0
+valid db 'Username and password is correct', 13, 10, 0
 login_buf times 50 db 0
 pass_buf times 50 db 0
 valid_login db 'jwwl', 0
-valid_pass db '[AWK', 0
+valid_pass db 'lwwj', 0
 
 ; +---------------------------------+
 ; |Features to pull into the kernel |
