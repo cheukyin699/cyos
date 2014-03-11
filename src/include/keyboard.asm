@@ -20,6 +20,7 @@ os_getline:
 	mov byte [ispwd], 1
 	.o_gt_regular:
 	pusha
+	mov cx, 0
 	push si
 	mov ax, 0
 	push ax
@@ -29,12 +30,38 @@ os_getline:
 		jz .o_gt_lp
 		cmp al, 0Dh		; Terminates if ENTER was pressed
 		jz .o_gt_ret
+		cmp al, 8
+		jz .o_gt_back	; Does backspace
 		cmp byte [ispwd], 1
 		jz .o_gt_skipprt; Carry flag indicates a password
 		mov ah, 0Eh		; Prints out the letter
 		int 10h
 		.o_gt_skipprt:
 		push ax
+		inc cx
+		jmp .o_gt_lp
+	.o_gt_back:
+		cmp cx, 0
+		je .o_gt_lp
+		dec cx
+		pop ax			; Pops out a byte/word
+		; Get pos
+		mov ah, 3
+		xor bh, bh
+		int 10h
+		; Set pos
+		mov ah, 2
+		xor bh, bh
+		dec dl
+		int 10h
+		; Write space
+		mov ah, 0Ah
+		mov al, 20h
+		push cx
+		mov cx, 1
+		int 10h
+		pop cx
+
 		jmp .o_gt_lp
 	.o_gt_ret:
 		pop ax

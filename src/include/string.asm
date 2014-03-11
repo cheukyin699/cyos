@@ -25,8 +25,6 @@ os_strcmp:
 	pusha
 	.o_scmp:
 		lodsb
-		mov ah, 0Eh
-		int 10h
 		push ax
 		xor al, [di]
 		cmp al, 0

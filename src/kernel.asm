@@ -9,6 +9,10 @@ mov bl, 4
 mov si, welcome_msg
 call os_printf
 
+login_strt:
+mov si, os_nl
+call os_printf
+
 ; Prompts for username
 mov bl, 20
 mov si, login_prmt
@@ -46,20 +50,19 @@ mov si, login_buf
 mov byte[di], 0x18
 call os_safehash
 mov si, pass_buf
+mov byte[di], 0x18
 call os_safehash
 mov si, login_buf
 mov di, valid_login
 call os_strcmp
-jnc novalid
+jnc login_strt
 mov si, pass_buf
 mov di, valid_pass
 call os_strcmp
-jnc novalid
+jnc login_strt
 
 mov si, valid
 call os_printf
-
-novalid:
 
 jmp $
 
