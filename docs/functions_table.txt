@@ -25,8 +25,11 @@
 = os_cls						: include/system.asm
 = os_getkey						: include/keyboard.asm
 = os_getline					: include/keyboard.asm
+= os_gettime					: include/system.asm
 = os_pixel						: include/system.asm
 = os_printf						: include/system.asm
+= os_safehash					: include/algorithms.asm
+= os_strcmp						: include/string.asm
 = os_wait_for_key				: include/keyboard.asm
 =
 =======================================================
